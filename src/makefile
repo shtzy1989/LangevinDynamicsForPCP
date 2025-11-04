@@ -52,5 +52,5 @@ langevinDynamicsDoubleBarrier_avx512: langevinDynamicsDoubleBarrier.cpp $(OBJ:.o
 	$(MPICXX) $(COMPILEFLAGS) $(COMPILEFLAGS_AVX512) -o $@ $^ $(LIB) 
 
 clean:
-	rm -f *.o *.o.avx512 langevinDynamicsSingleBarrier langevinDynamicsDoubleBarrier
+	rm -f *.o *.o.avx512 langevinDynamicsSingleBarrier_avx2 langevinDynamicsDoubleBarrier_avx2 langevinDynamicsSingleBarrier_avx512 langevinDynamicsDoubleBarrier_avx512
 
