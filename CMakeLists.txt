@@ -27,21 +27,80 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # ============================================================
 # --- Detect AVX512 or AVX2 support ---
 # ============================================================
-check_cxx_compiler_flag("-mavx512f" COMPILER_SUPPORTS_AVX512F)
-check_cxx_compiler_flag("-mavx512dq" COMPILER_SUPPORTS_AVX512DQ)
-check_cxx_compiler_flag("-mavx2" COMPILER_SUPPORTS_AVX2)
 
-if(COMPILER_SUPPORTS_AVX512F AND COMPILER_SUPPORTS_AVX512DQ)
-    message(STATUS "AVX512 supported — using AVX512 optimization flags.")
-    add_compile_options(-O2 -qopenmp -mavx2 -mavx512f -mavx512dq -fp-model=precise)
-    set(SIMD_MODE "AVX512")
-elseif(COMPILER_SUPPORTS_AVX2)
-    message(STATUS "AVX512 not supported — using AVX2 optimization flags.")
-    add_compile_options(-O2 -qopenmp -mavx2 -fp-model=precise -DSIMDLENGTH8)
-    set(SIMD_MODE "AVX2")
-else()
-    message(FATAL_ERROR "Neither AVX512 nor AVX2 is supported by this compiler.")
+include(CheckCXXCompilerFlag)
+include(CheckCXXSourceRuns)
+
+set(CMAKE_REQUIRED_FLAGS "-O2")
+
+# Step 1: check if compiler *accepts* the flags
+check_cxx_compiler_flag("-mavx2" COMPILER_SUPPORTS_AVX2)
+check_cxx_compiler_flag("-mavx512f" COMPILER_SUPPORTS_AVX512F)
+
+# Step 2: test at runtime if the CPU supports these instruction sets
+if(COMPILER_SUPPORTS_AVX512F)
+    message(STATUS "Compiler supports AVX512F, checking CPU capability...")
+
+    file(WRITE ${CMAKE_BINARY_DIR}/check_avx512.cpp
+        "#include <immintrin.h>\n"
+        "int main() {\n"
+        "#ifdef __GNUC__\n"
+        "  if (!__builtin_cpu_supports(\"avx512f\")) return 1;\n"
+        "#endif\n"
+        "  return 0;\n"
+        "}\n"
+    )
+    try_run(RUN_RESULT COMPILE_RESULT
+        ${CMAKE_BINARY_DIR}
+        ${CMAKE_BINARY_DIR}/check_avx512.cpp
+        COMPILE_DEFINITIONS "-mavx512f"
+    )
+
+    if(COMPILE_RESULT AND RUN_RESULT EQUAL 0)
+        set(USE_AVX512 TRUE)
+        message(STATUS "CPU supports AVX512F — enabling -mavx512f")
+    else()
+        message(STATUS "CPU does not support AVX512F — skipping")
+    endif()
 endif()
+
+if(NOT USE_AVX512 AND COMPILER_SUPPORTS_AVX2)
+    message(STATUS "Compiler supports AVX2, checking CPU capability...")
+
+    file(WRITE ${CMAKE_BINARY_DIR}/check_avx2.cpp
+        "#include <immintrin.h>\n"
+        "int main() {\n"
+        "#ifdef __GNUC__\n"
+        "  if (!__builtin_cpu_supports(\"avx2\")) return 1;\n"
+        "#endif\n"
+        "  return 0;\n"
+        "}\n"
+    )
+    try_run(RUN_RESULT2 COMPILE_RESULT2
+        ${CMAKE_BINARY_DIR}
+        ${CMAKE_BINARY_DIR}/check_avx2.cpp
+        COMPILE_DEFINITIONS "-mavx2"
+    )
+
+    if(COMPILE_RESULT2 AND RUN_RESULT2 EQUAL 0)
+        set(USE_AVX2 TRUE)
+        message(STATUS "CPU supports AVX2 — enabling -mavx2")
+    else()
+        message(STATUS "CPU does not support AVX2 — skipping")
+    endif()
+endif()
+
+# Step 3: set appropriate compiler flags
+if(USE_AVX512)
+    set(AVX_FLAGS "-mavx512f -mavx512dq")
+elseif(USE_AVX2)
+    set(AVX_FLAGS "-mavx2")
+else()
+    message(FATAL_ERROR "❌ Neither AVX2 nor AVX512F are supported on this machine.")
+endif()
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${AVX_FLAGS}")
+message(STATUS "Final SIMD flags: ${AVX_FLAGS}")
 
 # ============================================================
 # --- Detect OpenMP support ---
@@ -60,8 +119,8 @@ else()
     set(OPENMP_FLAGS "")
 endif()
 
-set(CMAKE_C_FLAGS           "${CMAKE_C_FLAGS} ${OPENMP_FLAGS}")
-set(CMAKE_CXX_FLAGS         "${CMAKE_CXX_FLAGS} ${OPENMP_FLAGS}")
+set(CMAKE_C_FLAGS           "${CMAKE_C_FLAGS} ${OPENMP_FLAGS} -fp-model=precise")
+set(CMAKE_CXX_FLAGS         "${CMAKE_CXX_FLAGS} ${OPENMP_FLAGS} -fp-model=precise")
 set(CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} ${OPENMP_FLAGS}")
 
 # ============================================================
