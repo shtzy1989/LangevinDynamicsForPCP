@@ -183,11 +183,14 @@ set(LINK_LIBS
 # ============================================================
 # --- Executables ---
 # ============================================================
-add_executable(langevinDynamicsSingleBarrier src/langevinDynamicsSingleBarrier.cpp ${SRC_FILES})
-target_link_libraries(langevinDynamicsSingleBarrier PRIVATE ${LINK_LIBS})
+# Build the shared code once
+add_library(langevin_common STATIC ${SRC_FILES})
 
-add_executable(langevinDynamicsDoubleBarrier src/langevinDynamicsDoubleBarrier.cpp ${SRC_FILES})
-target_link_libraries(langevinDynamicsDoubleBarrier PRIVATE ${LINK_LIBS})
+add_executable(langevinDynamicsSingleBarrier src/langevinDynamicsSingleBarrier.cpp)
+target_link_libraries(langevinDynamicsSingleBarrier PRIVATE langevin_common ${LINK_LIBS})
+
+add_executable(langevinDynamicsDoubleBarrier src/langevinDynamicsDoubleBarrier.cpp)
+target_link_libraries(langevinDynamicsDoubleBarrier PRIVATE langevin_common ${LINK_LIBS})
 
 # ============================================================
 # --- Install rules ---
