@@ -1,10 +1,7 @@
 MPICXX   := mpiicpx
 
-# AVX2
-#COMPILEFLAGS := -std=c++17 -O2 -mavx2 -fp-model=precise -DSIMDLENGTH8 
-
-# AVX512
-COMPILEFLAGS := -std=c++17 -O2 -mavx2 -mavx512f -mavx512dq -fp-model=precise #-DSIMDLENGTH8 
+COMPILEFLAGS := -std=c++17 -O2 -mavx -mavx2 -fp-model=precise
+COMPILEFLAGS_AVX512 := -mavx512f -mavx512dq -DSIMDLENGTH8
 
 LIB          := -qopenmp -lstdc++fs -lmkl_intel_lp64 -lmkl_intel_lp64 \
           -lmkl_core \
@@ -28,17 +25,32 @@ OBJ := vector.o \
        clsHistogram.o \
        RANDOMNUMBER.o
 
-all: langevinDynamicsSingleBarrier langevinDynamicsDoubleBarrier
+all:
+	@echo "Please specify which target to build: 'make avx2' or 'make avx512'."
+	@false
+
+avx2: langevinDynamicsSingleBarrier_avx2 langevinDynamicsDoubleBarrier_avx2
 
 %.o: %.cpp
 	$(MPICXX) $(COMPILEFLAGS) -c $< -o $@
 
-langevinDynamicsSingleBarrier: langevinDynamicsSingleBarrier.cpp $(OBJ)
+langevinDynamicsSingleBarrier_avx2: langevinDynamicsSingleBarrier.cpp $(OBJ)
 	$(MPICXX) $(COMPILEFLAGS) -o $@ $^ $(LIB) 
 
-langevinDynamicsDoubleBarrier: langevinDynamicsDoubleBarrier.cpp $(OBJ)
+langevinDynamicsDoubleBarrier_avx2: langevinDynamicsDoubleBarrier.cpp $(OBJ)
 	$(MPICXX) $(COMPILEFLAGS) -o $@ $^ $(LIB) 
+
+avx512: langevinDynamicsSingleBarrier_avx512 langevinDynamicsDoubleBarrier_avx512
+
+%.o.avx512: %.cpp
+	$(MPICXX) $(COMPILEFLAGS) $(COMPILEFLAGS_AVX512) -c $< -o $@
+
+langevinDynamicsSingleBarrier_avx512: langevinDynamicsSingleBarrier.cpp $(OBJ:.o=.o.avx512)
+	$(MPICXX) $(COMPILEFLAGS) $(COMPILEFLAGS_AVX512) -o $@ $^ $(LIB) 
+
+langevinDynamicsDoubleBarrier_avx512: langevinDynamicsDoubleBarrier.cpp $(OBJ:.o=.o.avx512)
+	$(MPICXX) $(COMPILEFLAGS) $(COMPILEFLAGS_AVX512) -o $@ $^ $(LIB) 
 
 clean:
-	rm -f *.o langevinDynamicsSingleBarrier langevinDynamicsDoubleBarrier
+	rm -f *.o *.o.avx512 langevinDynamicsSingleBarrier langevinDynamicsDoubleBarrier
 

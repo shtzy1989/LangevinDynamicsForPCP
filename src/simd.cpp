@@ -33,7 +33,7 @@ __m512d _mmSIMD_fmadd_pd(__m512d __A, __m512d __B, __m512d __C){
 //     __mmask8 _mask = _mm256_movemask_pd(_mask256);
 //     return _mask;
 // };
-__m256d _mm256_mask_blend_pd_avg256(__mmask8 _U, __m256d _A, __m256d _W){
+__m256d _mm256_mask_blend_pd_avx256(__mmask8 _U, __m256d _A, __m256d _W){
     __m256d _mask = _mm256_set_pd(
         (_U & 8) ? -1.0 : 0.0,
         (_U & 4) ? -1.0 : 0.0,

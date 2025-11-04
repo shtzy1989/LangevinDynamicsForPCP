@@ -1,0 +1,80 @@
+# [Output] Output base
+OUTPUTBASE           m1.0_t1.00e-05_0
+# [Parameter] Whether use overdamped equation
+OVERDAMPED           true
+# [Parameter] Initial position (x0)
+X0                   -2.9
+# [Parameter] Initial velocity (v0)
+V0                   1.0
+# [Parameter] Friction coefficient (Gamma)
+GAMMA                1.0
+# [Parameter] Boltzman factor
+KB                   1.0
+# [Parameter] Temperature
+TEMPERATURE          1.0
+# [Parameter] Mass
+MASS                 1.0
+# [Parameter] Whether randomize initial velocity
+RANDOMIZEV           true
+# [Parameter] Periodic length
+PERIODICLENGTH       5.8
+# [Parameter] Barrier heights (two)
+BARRIERHEIGHTS       18.00 5.00
+# [Parameter] Barrier half width
+BARRIERHALFWIDTH     0.65
+# [Parameter] Timestep (dt)
+TIMESTEP             0.0001
+# [Parameter] Number of steps
+NUMBEROFSTEPS        600000000000
+# [Parameter] Number of previous steps
+NUMBEROFPREVIOUSSTEPS 0
+# [Parameter] Number of runs
+NUMBEROFRUNS         1
+# [Parameter] Save frequency
+FREQSAVE             60000000
+# [Parameter] Statistics frequency
+FREQSTAT             1
+# [Parameter] Whether calculate V0 distribution
+DISTRIBUTIONV0       false
+# [Parameter] Whether calculate state0 distribution
+DISTRIBUTIONS0       true
+# [Parameter] Tau of bichotomic noise eta
+TAU                  1.00e-05
+# [Parameter] Initial barrier state (0 or 1)
+INITIALSTATE         0
+# [Parameter] Whether randomize initial states
+RANDOMIZESTATES      true
+# [Parameter] Uniform initial states
+UNIFORMINITALSTATES  false
+# [Parameter] Whether equal prob, constant forward K
+EQ                   true 1.0
+# [Parameter] Whether calculate waiting time
+WAITINGTIME          true
+# [Parameter] Whether calculate first passage time
+FPT                  true
+# [Parameter] Whether calculate transition path time
+TPT                  true
+# [Parameter] Whether calculate coarse grained first passage time
+FPTCG                true 2
+FPTCG                true 3
+FPTCG                true 4
+FPTCG                true 5
+FPTCG                true 10
+FPTCG                true 100
+FPTCG                true 1000
+# [Parameter] Whether read restart
+READRESTART          false
+# [Parameter] Whether write restart
+WRITERESTART         true
+# [Input] Input restart file base
+INPUTRESTART         none
+# [Output] Output restart file base
+OUTPUTRESTART        m1.0_t1.00e-05_restart_0
+# [Parameter] Whether write x trajectory
+WRITEX               false
+# [Parameter] Number of samples point per order
+NUMBEROFLOGSAMPLES   40
+# [Parameter] Random number seed
+RANDOMSEED           123
+# [Parameter] Whether print timer
+PRINTTIMER           true

@@ -11,7 +11,8 @@ Both programs use the Vector Statistical Library (VSL) from Intel MKL for random
 ## Directory Structure
 
 ```
-src/              → all source and header files  
+src/              → all source and header files
+sample_input/     → sample input files of single/double barrier [Cu(IDB)] models, and [Cu(OPTz)] model
 CMakeLists.txt    → main build configuration file
 ```
 
@@ -60,23 +61,25 @@ install/bin/
 ### Option 2: Build using Makefiles (manual control)
 
 If you prefer, the original Makefiles are available under `src/`:
-- `makefile`         (default)
-- `makefile_avx2`    (explicit AVX2 build)
-- `makefile_avx512`  (explicit AVX512 build)
+- `makefile`
 
-To build manually:
+To build manually with avx2:
 ```bash
 cd src
-make -f makefile_avx512        # or makefile_avx2, or makefile
+make avx2
 ```
-
-These Makefiles use `mpiicpx` and MKL flags explicitly and provide full control of compiler options.
+To build manually with avx512:
+```bash
+cd src
+make avx512
+```
+The Makefile uses `mpiicpx` and MKL flags explicitly and provide full control of compiler options.
 
 ---
 
 ## Run Instructions
 
-Run the executables to generate default configuration files:
+Run the executables to generate default input files:
 ```bash
 ./langevinDynamicsSingleBarrier -o input_single.inp
 ./langevinDynamicsSingleBarrier -o input_double.inp
@@ -86,7 +89,7 @@ Use `mpirun` or `mpiexec` to launch either executable:
 mpirun -np 4 ./langevinDynamicsSingleBarrier -i input_single.inp
 mpirun -np 4 ./langevinDynamicsDoubleBarrier -i input_double.inp
 ```
-Each program reads its own configuration file for system parameters.
+Each program reads its own input file for system parameters.
 
 ---
 

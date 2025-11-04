@@ -164,9 +164,9 @@ abs(__m256d x)
     #define _mm256_cmp_pd_mask_avx256(a, b, op) \
         ((unsigned char)_mm256_movemask_pd(_mm256_cmp_pd(a, b, op)))
 
-    __m256d _mm256_mask_blend_pd_avg256(__mmask8 _U, __m256d _A, __m256d _W);
+    __m256d _mm256_mask_blend_pd_avx256(__mmask8 _U, __m256d _A, __m256d _W);
     #define _mmSIMD_cmp_pd_mask(a, b, op) _mm256_cmp_pd_mask_avx256(a, b, op)
-    const auto _mmSIMD_mask_blend_pd = _mm256_mask_blend_pd_avg256; 
+    const auto _mmSIMD_mask_blend_pd = _mm256_mask_blend_pd_avx256; 
     
     const auto _mmask8_store_SIMD = _mmask8_store_256;
     const auto _mmask8_load_SIMD = _mmask8_load_256;
