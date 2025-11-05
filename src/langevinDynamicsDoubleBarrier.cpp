@@ -1,4 +1,4 @@
-#include "langevinEquation4.9.h"
+#include "langevinDynamicsDoubleBarrier.h"
 
 using namespace std;
 using namespace LANGEVINEQUATION;
