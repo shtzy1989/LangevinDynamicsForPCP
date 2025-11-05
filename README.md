@@ -1,4 +1,4 @@
-# Langevin Dynamics Calculation
+# Langevin Dynamics for Porous Coordination Polymer (PCP)
 
 This project provides two MPI-parallelized executables for Langevin dynamics simulations:
 - **langevinDynamicsSingleBarrier** — langevin dynamics calculation of a single-barrier model  
