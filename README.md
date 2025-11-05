@@ -36,7 +36,7 @@ README.md         → README file
 
 2. **CMake ≥ 3.16**
 
-3. CPUs with AVX512 or AVX2 support  
+3. **CPUs with AVX512 or AVX2 support**  
 For performance reasons, plain C++ version has not been implemented  
 ---
 
