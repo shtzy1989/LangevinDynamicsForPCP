@@ -235,7 +235,7 @@ The master random number seed used to generate the random number seed of each mp
 true = print the time prediction during calculation.  
 false = not to print the time prediction during calculation.  
 
-
+---
 
 ## Contact
 
@@ -244,3 +244,4 @@ For build or usage questions, please email the author with the follow informatio
 - CMake output from configuration (`cmake ..`)  
 - Any build log messages
 
+---
