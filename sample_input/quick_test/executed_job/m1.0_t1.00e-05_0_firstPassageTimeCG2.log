@@ -1,0 +1,99 @@
+# ==============================================
+# Overdamped           =          true
+# ==============================================
+# Number of node       =             4
+# ==============================================
+# Time step            =     0.0001000
+# Save frequency       =        300000
+# Save time step       =    30.0000000
+# Statistics freq      =             1
+# Number of step (pre) =             0
+# Number of step       =    3000000000
+# Simulation time      =  3.000000E+05
+# Number of trial      =             1
+# Number of run/trial  =             4
+# Number of run        =            16
+# ==============================================
+# Barrier height [0]   =     7.2000000
+# Barrier height [1]   =     2.0000000
+# Barrier periodicity  =     5.8000000
+# slope half length    =     0.6500000
+# Equal probability    =          true
+# Equilibrium constant = 1.0000000E+00
+# ==============================================
+# Mass                 =     1.0000000
+# Gamma                =     1.0000000
+# Temperature          =     1.0000000
+# kB                   =     1.0000000
+# Eta variance (Q)     =     0.2000000
+# Eta tau              =     0.0000100
+# Sample per order     =            40
+# ==============================================
+# X0                   =    -2.9000000
+# V0                   =        Random
+# Eta0                 =        Random
+# State0               =        Random
+# Same initial barrier =         false
+# ==============================================
+# Random number seed0  =           123
+# Random number seed   =     128959393
+# ==============================================
+# Number of traj(each) =             7
+# Memory usage (each)  =     2.1364441 M
+# Memory usage (total) =     8.5457764 M
+# ==============================================
+# MSD                  =     Mandatory
+# Waiting time         =          true
+# Write trajectories   =          true
+# V0 Distribution      =         false
+# Eta0 Distribution    =         false
+# State0 Distribution  =          true
+# Eta result           =         false
+# First passage time   =          true
+# Barrier hist hmin    =     0.0000000
+# Barrier hist hmax    =    10.0000000
+# Barrier hist nbin    =           100
+# Transtion path time  =          true
+# First passage time CG=          true
+# FFT CG size    0     =             2
+# FFT CG size    1     =             3
+# FFT CG size    2     =             4
+# FFT CG size    3     =             5
+# FFT CG size    4     =            10
+# FFT CG size    5     =           100
+# FFT CG size    6     =          1000
+# X correlation        =         false
+# ==============================================
+# Read restart         =         false
+# Write restart        =          true
+# Input restart (base) =          none
+# Output restart (base)= m1.0_t1.00e-05_restart_0
+# ==============================================
+#    0    2
+# average  3.0924203008532857E+02
+# sd       8.1298204011118393E+00
+# count                        16
+#    1    3
+# average  6.8961050611846338E+02
+# sd       2.2627937456597280E+01
+# count                        16
+#    2    4
+# average  1.2381845821966238E+03
+# sd       5.2538122779364627E+01
+# count                        16
+#    3    5
+# average  1.9571286080862874E+03
+# sd       1.1226522728706036E+02
+# count                        16
+#    4   10
+# average  7.8732434858497800E+03
+# sd       8.8596960153692373E+02
+# count                        16
+#    5  100
+# average  6.3781241015624997E+04
+# sd       9.7973266845341655E+04
+# count                        16
+#    6 1000
+# average  0.0000000000000000E+00
+# sd       0.0000000000000000E+00
+# count                        16
